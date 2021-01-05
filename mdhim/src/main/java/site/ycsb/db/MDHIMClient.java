@@ -41,7 +41,7 @@ public class MDHIMClient extends DB {
 
 	mlib = new MdhimLibrary();
 	md = mlib.mdhimInit(null, null);
-
+/*
         Long key = new Long(100);
 		  Long value = new Long(200);
 
@@ -63,6 +63,7 @@ public class MDHIMClient extends DB {
 		  System.out.println(lg.getLong());
 		  count++;
 		  }
+		  */
         		
     }
 
@@ -99,27 +100,30 @@ public class MDHIMClient extends DB {
 	    //	    System.out.println("Got: " + b + " from mdhimGet");
 	    Pointer<Pointer<? > > ptrs = b.values();
 	    //System.out.println("Got: " + ptrs + " from mdhimGet");
-	    /*   Pointer<Pointer<?>> ptrs = b.values();
-		 System.out.println("Got: " + b.values().getBytes() + " from mdhimGet");*/
-	    int count = 0;
-
-	    //System.out.println("Got: " + Arrays.toString(ptrs.getBytes(1)) + " from mdhimGet");
-
+	//	 System.out.println("Got: " + b.values().getBytes() + " from mdhimGet");
+	      int count = 0;
+	    // Here I wanted to make sure that the library is actually returning values. So I printed
+	    // the first 30 bytes and by comparing first 30 bytes of non-existing and existing entries
+	    // I concluded that the read() works. Yeah... 
+	 
+	    //System.out.println("Got: " + Arrays.toString(ptrs.getBytes(30)) + " from mdhimGet");
+/*
 	    	    for (Pointer<? > lg : ptrs) {
-		System.out.println("Key: " + key + " value: " + lg.get());
+		//System.out.println("Key: " + key + " value: " + lg.get());
 				result.put(key, new ByteArrayByteIterator(lg.getBytes()));
 
 		if (count >= b.num_keys()) {
 		    break;
 		}
 		
-				System.out.println("Key: " + key + " value: " + lg.getBytes());
+		//		System.out.println("Key: " + key + " value: " + lg.getBytes());
 				result.put(key, new ByteArrayByteIterator(lg.getBytes()));
-				} 
+				}*/ 
 	    
 	    mlib.mdhim_full_release_msg(bgrm);
 	} catch (Exception e) {
-				System.out.println(e.getCause());
+		    e.printStackTrace(System.out);
+
 	}
 	return Status.OK;
     }
@@ -144,7 +148,7 @@ public class MDHIMClient extends DB {
 	
 	    byte[] value = new byte[1000];
 	    int v = 0;
-	    System.out.println("Insert values: " + values); 
+	    //System.out.println("Insert values: " + values); 
 	    for (Map.Entry<String, ByteIterator> entry : values.entrySet()) {
 		byte[] new_value = entry.getValue().toArray();
 		System.arraycopy(new_value, 0, value, v*100, new_value.length);

@@ -67,6 +67,7 @@ DATABASES = {
     "couchbase2"   : "site.ycsb.db.couchbase2.Couchbase2Client",
     "crail"        : "site.ycsb.db.crail.CrailClient",
     "dynamodb"     : "site.ycsb.db.DynamoDBClient",
+    "mdhim"        : "site.ycsb.db.MDHIMClient",
     "elasticsearch": "site.ycsb.db.ElasticsearchClient",
     "elasticsearch5": "site.ycsb.db.elasticsearch5.ElasticsearchClient",
     "elasticsearch5-rest": "site.ycsb.db.elasticsearch5.ElasticsearchRestClient",
@@ -209,10 +210,10 @@ def is_distribution():
 # Given module is full module name eg. 'core' or 'couchbase-binding'
 def get_classpath_from_maven(module):
     try:
-        debug("Running 'mvn -pl site.ycsb:" + module + " -am package -DskipTests "
+        debug("Running 'mvn -pl site.ycsb:" + module + " -Dcheckstyle.skip -am package -DskipTests " 
               "dependency:build-classpath -DincludeScope=compile -Dmdep.outputFilterFile=true'")
         mvn_output = check_output(["mvn", "-pl", "site.ycsb:" + module,
-                                   "-am", "package", "-DskipTests",
+                                   "-Dcheckstyle.skip", "-am", "package", "-DskipTests",
                                    "dependency:build-classpath",
                                    "-DincludeScope=compile",
                                    "-Dmdep.outputFilterFile=true"])

@@ -14,8 +14,6 @@ import java.util.SortedMap;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
-import paperless_swig.*;
-
 import site.ycsb.ByteArrayByteIterator;
 import site.ycsb.ByteIterator;
 import site.ycsb.DB;
@@ -47,8 +45,9 @@ public class PaperlessClient extends DB {
 
     @Override
     public Status read(String table, String key, Set<String> fields, Map<String, ByteIterator> result) {
-        System.out.println("read: " + key);
-        paperless.kv_get(table + key, key.length(), read_buffer, read_buffer.length()); 
+        String realkey = table + key;
+        System.out.println("read: " + realkey);
+        paperless.kv_get(realkey, realkey.length(), read_buffer, read_buffer.length()); 
 	    return Status.OK;
     }
 
@@ -66,7 +65,8 @@ public class PaperlessClient extends DB {
 	    for (Map.Entry<String, ByteIterator> entry : values.entrySet()) {
             value += entry.getKey() + new String(entry.getValue().toArray());
 	    }
-        paperless.kv_put(table + key, key.length(), value, value.length()); 
+        String realkey = table + key;
+        paperless.kv_put(realkey, realkey.length(), value, value.length()); 
 	    return Status.OK;
     }
     

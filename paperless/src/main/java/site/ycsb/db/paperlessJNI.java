@@ -6,7 +6,7 @@
  * the SWIG interface file instead.
  * ----------------------------------------------------------------------------- */
 
-package paperless_swig;
+package site.ycsb.db;
 
 public class paperlessJNI {
   public final static native void kv_init();

@@ -151,6 +151,7 @@ LICENSE file.
  <!--    <voltdb.version>10.1.1</voltdb.version> -->
  <!--    <zookeeper.version>3.5.8</zookeeper.version> -->
     <mdhim.version>0.0.1</mdhim.version>
+    <paperless.version>0.0.1</paperless.version>
   </properties>
 
   <modules>
@@ -188,6 +189,7 @@ LICENSE file.
     <!-- <module>maprjsondb</module> -->
     <!-- <module>memcached</module> -->
     <module>mdhim</module>
+    <module>paperless</module>
     <!-- <module>mongodb</module> -->
     <!-- <module>nosqldb</module> -->
     <!-- <module>orientdb</module> -->

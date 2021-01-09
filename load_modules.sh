@@ -10,4 +10,4 @@
 . /cluster/apps/local/env2lmod.sh
 
 module load openmpi/3.0.1 maven/3.5.0 openjdk/14.0.2 leveldb/1.20
-
+module load zstd/1.3.0 snappy/1.1.7 

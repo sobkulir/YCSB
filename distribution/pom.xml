@@ -39,11 +39,16 @@ LICENSE file.
       <artifactId>core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency> 
-      <groupId>site.ycsb</groupId> 
+    <dependency>
+      <groupId>site.ycsb</groupId>
+      <artifactId>paperless-binding</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>site.ycsb</groupId>
       <artifactId>mdhim-binding</artifactId>
-      <version>${project.version}</version> 
-    </dependency> 
+      <version>${project.version}</version>
+    </dependency>
 <!--    <dependency> -->
 <!--      <groupId>site.ycsb</groupId> -->
 <!--      <artifactId>accumulo1.9-binding</artifactId> -->

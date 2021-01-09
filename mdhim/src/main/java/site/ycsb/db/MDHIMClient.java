@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.SortedMap;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
@@ -85,7 +86,7 @@ public class MDHIMClient extends DB {
 	//}
 
 	try {
-	    byte[] stringBytes=key.getBytes("US-ASCII");
+	    byte[] stringBytes=(table + key).getBytes("US-ASCII");
 	    Pointer<Byte> key_ptr = Pointer.allocateBytes(stringBytes.length);
 	    key_ptr.setBytes(stringBytes);
 	    Pointer<mdhim_bgetrm_t > bgrm = mlib.mdhimGet(md, null, key_ptr, 
@@ -130,8 +131,9 @@ public class MDHIMClient extends DB {
 
     @Override
     public Status update(String table, String key, Map<String, ByteIterator> values) {
-
-	return insert(table, key, values);
+        // Read the value to sort of simulate a true update...
+        read(table, key, new HashSet<String>(), new HashMap<String, ByteIterator>());
+        return insert(table, key, values);
     }
 
     @Override
@@ -142,7 +144,7 @@ public class MDHIMClient extends DB {
 	//}
 	
 	try {
-	    byte[] stringBytes=key.getBytes("US-ASCII");
+	    byte[] stringBytes=(table + key).getBytes("US-ASCII");
 	    Pointer<Byte> key_ptr = Pointer.allocateBytes(stringBytes.length);
 	    key_ptr.setBytes(stringBytes);
 	

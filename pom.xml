@@ -152,6 +152,7 @@ LICENSE file.
  <!--    <zookeeper.version>3.5.8</zookeeper.version> -->
     <mdhim.version>0.0.1</mdhim.version>
     <paperless.version>0.0.1</paperless.version>
+    <papyrus.version>0.0.1</papyrus.version>
   </properties>
 
   <modules>
@@ -190,6 +191,7 @@ LICENSE file.
     <!-- <module>memcached</module> -->
     <module>mdhim</module>
     <module>paperless</module>
+    <module>papyrus</module>
     <!-- <module>mongodb</module> -->
     <!-- <module>nosqldb</module> -->
     <!-- <module>orientdb</module> -->

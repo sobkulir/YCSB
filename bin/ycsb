@@ -69,6 +69,7 @@ DATABASES = {
     "dynamodb"     : "site.ycsb.db.DynamoDBClient",
     "mdhim"        : "site.ycsb.db.MDHIMClient",
     "paperless"        : "site.ycsb.db.PaperlessClient",
+    "papyrus"        : "site.ycsb.db.PapyrusClient",
     "elasticsearch": "site.ycsb.db.ElasticsearchClient",
     "elasticsearch5": "site.ycsb.db.elasticsearch5.ElasticsearchClient",
     "elasticsearch5-rest": "site.ycsb.db.elasticsearch5.ElasticsearchRestClient",

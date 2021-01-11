@@ -12,9 +12,9 @@ KILO=1024
 MEGA=$((1024 * KILO))
 GIGA=$((1024 * MEGA))
 
-RANKS=4
+RANKS=(1 2)
 N_RUNS=1
-
+DBs=( "papyrus" "paperless" "mdhim" )
 # Paperless parameters.
 
 export MAX_LOCAL_MEMTABLE_SIZE=$GIGA
@@ -25,8 +25,6 @@ export MAX_LOCAL_CACHE_SIZE=$GIGA
 # Same as for memtable size.
 export MAX_REMOTE_CACHE_SIZE=$MAX_LOCAL_CACHE_SIZE
 export DISPATCH_IN_CHUNKS=1
-EXPERIMENT=ycsb
-export STORAGE_BASE=/scratch/$EXPERIMENT
 
 # Papyrus parameters.
 # Enable usage of caches.
@@ -41,14 +39,34 @@ export PAPYRUSKV_MEMTABLE_SIZE=$MAX_LOCAL_MEMTABLE_SIZE
 export PAPYRUSKV_CACHE_SIZE=$MAX_LOCAL_CACHE_SIZE
 export PAPYRUSKV_DESTROY_REPOSITORY=1 # Gets rid of the data afterwards.
 
+# General
+# Add mdhim, paperless and papyrus java wrappers to lib path.
+export LD_LIBRARY_PATH=$HOME/usr/lib:$LD_LIBRARY_PATH
+EXPERIMENT=ycsb
+export STORAGE_BASE=/scratch/$EXPERIMENT
 
 mpiexec --version
 MPIEXEC_FLAGS=("--report-bindings" "--map-by" "node:pe=2")
 
-rm -rf ${STORAGE_LOCATION}
+rm -rf ${STORAGE_BASE}
 for k in $(seq $N_RUNS); do
   for i in "${RANKS[@]}"; do
-    echo "ranks$i/run$k"
+    for db in "${DBs[@]}"; do
+      echo "run$k/ranks$i/db-$db"
+      export STORAGE_LOCATION=$STORAGE_BASE/$db/storage
+      export CHECKPOINT_PATH=$STORAGE_BASE/$db/checkpoint
+      mkdir -p $STORAGE_LOCATION $CHECKPOINT_PATH
 
+      # Load
+      export SHOULD_RESTART=0
+      echo "mpiexec -np $i ${MPIEXEC_FLAGS[@]} ./bin/ycsb load $db -P workloads/workloada -P benchsetup.dat"
+      mpiexec -np $i ${MPIEXEC_FLAGS[@]} ./bin/ycsb load $db -P workloads/workloada -P benchsetup.dat
+
+      # Run
+      export SHOULD_RESTART=1
+      echo "mpiexec -np $i ${MPIEXEC_FLAGS[@]} ./bin/ycsb run $db -P workloads/workloada -P benchsetup.dat"
+      mpiexec -np $i ${MPIEXEC_FLAGS[@]} ./bin/ycsb run $db -P workloads/workloada -P benchsetup.dat
+      rm -rf ${STORAGE_BASE}
+    done
   done
 done
